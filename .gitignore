@@ -1,0 +1,10 @@
+.idea
+
+positivos_covid.csv
+fallecidos_covid.csv
+
+google.deb
+
+*.ipynb_checkpoints*
+
+notebooks/.ipynb_checkpoints
