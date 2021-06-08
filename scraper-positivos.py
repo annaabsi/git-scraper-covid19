@@ -24,10 +24,43 @@ df_positivos
 df_positivos_cum=df_positivos.cumsum()
 df_positivos_cum
 
+col_poblacion=[426806,
+1180638,
+430736,
+1497438,
+668213,
+1453711,
+1129854,
+1357075,
+365317,
+760267,
+975182,
+1361467,
+2016771,
+1310785,
+10628470,
+1027559,
+173811,
+192740,
+271904,
+2047954,
+1237997,
+899648,
+370974,
+251521,
+589110]
+
 # ACUMULADO POR DEPARTAMENTO
-df_positivos_departamento=df[['DEPARTAMENTO','METODODX','SEXO']].groupby(['DEPARTAMENTO', 'METODODX']).count()
-df_positivos_departamento=df_positivos_departamento.reset_index()
-df_positivos_departamento=df_positivos_departamento.pivot(index='DEPARTAMENTO', columns='METODODX', values='SEXO')
+df_positivos_departamento=df[['DEPARTAMENTO','METODODX']]
+def function(valueX):
+  if 'LIMA REGION' in valueX:
+    return 'LIMA'
+  else:
+    return valueX
+df_positivos_departamento['DEPARTAMENTO']=df_positivos_departamento['DEPARTAMENTO'].map(function)
+df_positivos_departamento=df_positivos_departamento.groupby(['DEPARTAMENTO']).count()
+df_positivos_departamento['POBLACION']=col_poblacion
+df_positivos_departamento['INDICE']=round(df_positivos_departamento['METODODX']/(df_positivos_departamento['POBLACION']/100000)).astype('int')
 df_positivos_departamento
 
 # ACUMULADO POR GRUPO ETARIO

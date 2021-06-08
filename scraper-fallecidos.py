@@ -24,10 +24,44 @@ df_fallecidos
 df_fallecidos_cum=df_fallecidos.cumsum()
 df_fallecidos_cum
 
+col_poblacion=[426806,
+1180638,
+430736,
+1497438,
+668213,
+1453711,
+1129854,
+1357075,
+365317,
+760267,
+975182,
+1361467,
+2016771,
+1310785,
+10628470,
+1027559,
+173811,
+192740,
+271904,
+2047954,
+1237997,
+899648,
+370974,
+251521,
+589110]
+
 # ACUMULADO POR DEPARTAMENTO
-df_fallecidos_departamento=df[['DEPARTAMENTO','SEXO','EDAD_DECLARADA']].groupby(['DEPARTAMENTO', 'SEXO']).count()
-df_fallecidos_departamento=df_fallecidos_departamento.reset_index()
-df_fallecidos_departamento=df_fallecidos_departamento.pivot(index='DEPARTAMENTO', columns='SEXO', values='EDAD_DECLARADA')
+# ACUMULADO POR DEPARTAMENTO
+df_fallecidos_departamento=df[['DEPARTAMENTO','SEXO']]
+def function(valueX):
+  if 'LIMA REGION' in valueX:
+    return 'LIMA'
+  else:
+    return valueX
+df_fallecidos_departamento['DEPARTAMENTO']=df_fallecidos_departamento['DEPARTAMENTO'].map(function)
+df_fallecidos_departamento=df_fallecidos_departamento.groupby(['DEPARTAMENTO']).count()
+df_fallecidos_departamento['POBLACION']=col_poblacion
+df_fallecidos_departamento['INDICE']=round(df_fallecidos_departamento['SEXO']/(df_fallecidos_departamento['POBLACION']/100000)).astype('int')
 df_fallecidos_departamento
 
 # ACUMULADO POR GRUPO ETARIO
