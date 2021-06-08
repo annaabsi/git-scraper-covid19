@@ -20,13 +20,13 @@
 Automatizado con [Github Actions](.github/workflows/main.yml)
 
 Instalación
-```
+```bash
 # Instala requerimientos de Python
 pip3 install -r requirements.txt
 ```
 
 Obtener resultados
-```
+```bash
 # Casos positivos de Covid-19
 python3 scraper-positivos.py
 # Fallecidos por Covid-19
