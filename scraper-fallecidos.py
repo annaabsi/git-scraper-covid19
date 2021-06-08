@@ -9,6 +9,7 @@ data = StringIO(req.text)
 
 df=pd.read_csv(data, sep=';', usecols=['FECHA_CORTE', 'EDAD_DECLARADA', 'SEXO', 'FECHA_FALLECIMIENTO', 'DEPARTAMENTO'], parse_dates=['FECHA_FALLECIMIENTO'])
 #df=pd.read_csv('fallecidos_covid.csv', sep=';', usecols=['FECHA_CORTE', 'EDAD_DECLARADA', 'SEXO', 'FECHA_FALLECIMIENTO', 'DEPARTAMENTO'], parse_dates=['FECHA_FALLECIMIENTO'])
+df=df[df['SEXO']!='INDETERMINADO']
 fecha_corte=df['FECHA_CORTE'].drop_duplicates().set_axis(['fecha_corte'])
 fecha_corte.to_json("resultados/fecha_corte_fallecidos.json")
 
@@ -51,7 +52,14 @@ col_poblacion=[426806,
 589110]
 
 # ACUMULADO POR DEPARTAMENTO
-df_fallecidos_departamento=df[['DEPARTAMENTO','SEXO']].groupby(['DEPARTAMENTO']).count()
+df_fallecidos_departamento=df[['DEPARTAMENTO','SEXO']]
+def function(valueX):
+  if 'LIMA' in valueX:
+    return 'LIMA'
+  else:
+    return valueX
+df_fallecidos_departamento['DEPARTAMENTO']=df_fallecidos_departamento['DEPARTAMENTO'].map(function)
+df_fallecidos_departamento=df_fallecidos_departamento.groupby(['DEPARTAMENTO']).count()
 df_fallecidos_departamento['POBLACION']=col_poblacion
 df_fallecidos_departamento['INDICE']=round(df_fallecidos_departamento['SEXO']/(df_fallecidos_departamento['POBLACION']/100000)).astype('int')
 df_fallecidos_departamento
