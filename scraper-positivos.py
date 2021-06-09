@@ -60,7 +60,7 @@ def function(valueX):
 df_positivos_departamento['DEPARTAMENTO']=df_positivos_departamento['DEPARTAMENTO'].map(function)
 df_positivos_departamento=df_positivos_departamento.groupby(['DEPARTAMENTO']).count()
 df_positivos_departamento['POBLACION']=col_poblacion
-df_positivos_departamento['INDICE']=round(df_positivos_departamento['METODODX']/(df_positivos_departamento['POBLACION']/100000)).astype('int')
+df_positivos_departamento['INDICE']=round(df_positivos_departamento['METODODX']/(df_positivos_departamento['POBLACION']/1000)).astype('int')
 df_positivos_departamento
 
 # ACUMULADO POR GRUPO ETARIO

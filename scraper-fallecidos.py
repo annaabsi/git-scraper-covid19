@@ -61,7 +61,7 @@ def function(valueX):
 df_fallecidos_departamento['DEPARTAMENTO']=df_fallecidos_departamento['DEPARTAMENTO'].map(function)
 df_fallecidos_departamento=df_fallecidos_departamento.groupby(['DEPARTAMENTO']).count()
 df_fallecidos_departamento['POBLACION']=col_poblacion
-df_fallecidos_departamento['INDICE']=round(df_fallecidos_departamento['SEXO']/(df_fallecidos_departamento['POBLACION']/100000)).astype('int')
+df_fallecidos_departamento['INDICE']=round(df_fallecidos_departamento['SEXO']/(df_fallecidos_departamento['POBLACION']/1000)).astype('int')
 df_fallecidos_departamento
 
 # ACUMULADO POR GRUPO ETARIO
