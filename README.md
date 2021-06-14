@@ -8,7 +8,10 @@
   </a>
 
   <h3 align="center">Casos confirmados y muertes por la Covid-19 en Perú</h3>
-
+  
+  <p align="center">
+    <a href="https://data.larepublica.pe/envivo-casos-confirmados-muertes-coronavirus-peru/">Publicación</a>
+  </p>
 </p>
 
 <hr>
