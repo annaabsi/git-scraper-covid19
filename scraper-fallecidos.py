@@ -11,8 +11,6 @@ try:
   df=pd.read_csv(data, sep=';', usecols=['FECHA_CORTE', 'EDAD_DECLARADA', 'SEXO', 'FECHA_FALLECIMIENTO', 'DEPARTAMENTO'], parse_dates=['FECHA_FALLECIMIENTO'])
   #df=pd.read_csv('fallecidos_covid.csv', sep=';', usecols=['FECHA_CORTE', 'EDAD_DECLARADA', 'SEXO', 'FECHA_FALLECIMIENTO', 'DEPARTAMENTO'], parse_dates=['FECHA_FALLECIMIENTO'])
   df=df[(df['SEXO']=='FEMENINO') | (df['SEXO']=='MASCULINO')]
-  fecha_corte=df['FECHA_CORTE'].drop_duplicates().set_axis(['fecha_corte'])
-  fecha_corte.to_json("resultados/fecha_corte_fallecidos.json")
 
   # DIARIO FALLECIDOS
   df_fallecidos=df[['FECHA_FALLECIMIENTO','SEXO', 'EDAD_DECLARADA']].groupby(['FECHA_FALLECIMIENTO', 'SEXO']).count()
@@ -77,6 +75,10 @@ try:
   df_fallecidos_edades['PORCENTAJE']=round(df_fallecidos_edades['FALLECIDOS']/df_fallecidos_edades['POBLACION']*100,2)
   df_fallecidos_edades=df_fallecidos_edades.set_index('GRUPO_ETARIO')
   df_fallecidos_edades
+
+  #TOTAL FALLECIDOS
+  fallecidos = pd.Series([df['FECHA_CORTE'].unique()[0], df[['FECHA_CORTE'][0]].count()], index=['fecha_corte', 'total_fallecidos'])
+  fallecidos.to_json('resultados/fallecidos.json')
 
   df_fallecidos.to_csv('resultados/fallecidos_diarios.csv')
   df_fallecidos_cum.to_csv('resultados/fallecidos_acumulados.csv')

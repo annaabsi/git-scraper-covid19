@@ -11,8 +11,6 @@ try:
 
   df=pd.read_csv(data, sep=';', usecols=['FECHA_CORTE', 'EDAD', 'SEXO', 'FECHA_RESULTADO', 'METODODX', 'DEPARTAMENTO'], parse_dates=['FECHA_RESULTADO'])
   #df=pd.read_csv('positivos_covid.csv', sep=';', usecols=['FECHA_CORTE', 'EDAD', 'SEXO', 'FECHA_RESULTADO', 'METODODX', 'DEPARTAMENTO'], parse_dates=['FECHA_RESULTADO'])
-  fecha_corte=df['FECHA_CORTE'].drop_duplicates().set_axis(['fecha_corte'])
-  fecha_corte.to_json("resultados/fecha_corte_positivos.json")
 
   # DIARIO AG, PCR, PR
   df_positivos=df[['FECHA_RESULTADO','METODODX','SEXO']].groupby(['FECHA_RESULTADO','METODODX']).count()
@@ -77,6 +75,10 @@ try:
   df_positivos_edades['PORCENTAJE']=round(df_positivos_edades['POSITIVOS']/df_positivos_edades['POBLACION']*100,2)
   df_positivos_edades=df_positivos_edades.set_index('GRUPO_ETARIO')
   df_positivos_edades
+
+  #TOTAL POSITIVOS
+  positivos = pd.Series([df['FECHA_CORTE'].unique()[0], df[['FECHA_CORTE'][0]].count()], index=['fecha_corte', 'total_positivos'])
+  positivos.to_json('resultados/positivos.json')
 
   df_positivos.to_csv('resultados/positivos_diarios.csv')
   df_positivos_cum.to_csv('resultados/positivos_acumulados.csv')
