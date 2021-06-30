@@ -77,7 +77,7 @@ try:
   df_fallecidos_edades
 
   #TOTAL FALLECIDOS
-  fallecidos = pd.Series([df['FECHA_CORTE'].unique()[0], df[['FECHA_CORTE'][0]].count()], index=['fecha_corte', 'total_fallecidos'])
+  fallecidos = pd.Series([df['FECHA_CORTE'].unique()[0], df[['FECHA_CORTE'][0]].count(), df_fallecidos.tail(1).sum(axis=1)[0]], index=['fecha_corte', 'total_fallecidos', 'incremento_fallecidos'])
   fallecidos.to_json('resultados/fallecidos.json')
 
   df_fallecidos.to_csv('resultados/fallecidos_diarios.csv')

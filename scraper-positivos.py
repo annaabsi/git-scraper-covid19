@@ -77,7 +77,7 @@ try:
   df_positivos_edades
 
   #TOTAL POSITIVOS
-  positivos = pd.Series([df['FECHA_CORTE'].unique()[0], df[['FECHA_CORTE'][0]].count()], index=['fecha_corte', 'total_positivos'])
+  positivos = pd.Series([df['FECHA_CORTE'].unique()[0], df[['FECHA_CORTE'][0]].count(), df_positivos.tail(1).sum(axis=1)[0]], index=['fecha_corte', 'total_positivos', 'incremento_positivos'])
   positivos.to_json('resultados/positivos.json')
 
   df_positivos.to_csv('resultados/positivos_diarios.csv')
