@@ -77,8 +77,20 @@ try:
   df_positivos_edades
 
   #TOTAL POSITIVOS
-  positivos = pd.Series([df['FECHA_CORTE'].unique()[0], df[['FECHA_CORTE'][0]].count(), df_positivos.tail(1).sum(axis=1)[0]], index=['fecha_corte', 'total_positivos', 'incremento_positivos'])
-  positivos.to_json('resultados/positivos.json')
+  #positivos = pd.Series([df['FECHA_CORTE'].unique()[0], df[['FECHA_CORTE'][0]].count(), df_positivos.tail(1).sum(axis=1)[0]], index=['fecha_corte', 'total_positivos', 'incremento_positivos'])
+  #positivos.to_json('resultados/positivos.json')
+
+  from requests_html import HTMLSession
+  session = HTMLSession()
+  r = session.get('https://www.gob.pe/coronavirus#casos')
+  scrap_covid_acumulado = r.html.find('.text-base.w-full.tracking-tight')
+  scrap_covid_diario = r.html.find('.font-bold.text-2xl')
+  scrap_covid = scrap_covid_acumulado + scrap_covid_diario
+  d = []
+  for number in scrap_covid:
+      d.append(number.text)
+  covid = pd.Series(d,index=['total_confirmados', 'total_altas', 'total_fallecidos', 'ayer_confirmados', 'ayer_altas', 'ayer_fallecidos'])
+  covid.to_json('resultados/covid.json')
 
   df_positivos.to_csv('resultados/positivos_diarios.csv')
   df_positivos_cum.to_csv('resultados/positivos_acumulados.csv')
