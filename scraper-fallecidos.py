@@ -11,6 +11,8 @@ try:
   df=pd.read_csv(data, sep=';', usecols=['FECHA_CORTE', 'EDAD_DECLARADA', 'SEXO', 'FECHA_FALLECIMIENTO', 'DEPARTAMENTO'], parse_dates=['FECHA_FALLECIMIENTO'])
   #df=pd.read_csv('fallecidos_covid.csv', sep=';', usecols=['FECHA_CORTE', 'EDAD_DECLARADA', 'SEXO', 'FECHA_FALLECIMIENTO', 'DEPARTAMENTO'], parse_dates=['FECHA_FALLECIMIENTO'])
   df=df[(df['SEXO']=='FEMENINO') | (df['SEXO']=='MASCULINO')]
+  fecha_corte=df['FECHA_CORTE'].drop_duplicates().set_axis(['fecha_corte'])
+  fecha_corte.to_json("resultados/fecha_corte_fallecidos.json")
 
   # DIARIO FALLECIDOS
   df_fallecidos=df[['FECHA_FALLECIMIENTO','SEXO', 'EDAD_DECLARADA']].groupby(['FECHA_FALLECIMIENTO', 'SEXO']).count()
