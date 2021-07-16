@@ -3,7 +3,7 @@ import requests
 from io import StringIO
 
 try:
-  url = "https://cloud.minsa.gob.pe/s/Md37cjXmjT9qYSa/download"
+  url = "https://cloud.minsa.gob.pe/s/xJ2LQ3QyRW38Pe5/download"
   headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:66.0) Gecko/20100101 Firefox/66.0"}
   req = requests.get(url, headers=headers)
   data = StringIO(req.text)
