@@ -82,10 +82,20 @@ try:
   #fallecidos = pd.Series([df['FECHA_CORTE'].unique()[0], df[['FECHA_CORTE'][0]].count(), df_fallecidos.tail(1).sum(axis=1)[0]], index=['fecha_corte', 'total_fallecidos', 'incremento_fallecidos'])
   #fallecidos.to_json('resultados/fallecidos.json')
 
+  # DIARIO FALLECIDOS: TACNA
+  df_tacna=df[df['DEPARTAMENTO'] == 'TACNA']
+  df_fallecidos_tacna=df_tacna[['FECHA_FALLECIMIENTO','SEXO', 'EDAD_DECLARADA']].groupby(['FECHA_FALLECIMIENTO', 'SEXO']).count()
+  df_fallecidos_tacna=df_fallecidos_tacna.reset_index()
+  df_fallecidos_tacna=df_fallecidos_tacna.pivot(index='FECHA_FALLECIMIENTO', columns='SEXO', values='EDAD_DECLARADA')
+  df_fallecidos_tacna=df_fallecidos_tacna.rename_axis(None, axis=1)
+  df_fallecidos_tacna=df_fallecidos_tacna.fillna(0).astype('int')
+  df_fallecidos_tacna
+
   df_fallecidos.to_csv('resultados/fallecidos_diarios.csv')
   df_fallecidos_cum.to_csv('resultados/fallecidos_acumulados.csv')
   df_fallecidos_departamento.to_csv('resultados/fallecidos_por_departamentos.csv')
   df_fallecidos_edades.to_csv('resultados/fallecidos_por_edades.csv')
+  df_fallecidos_tacna.to_csv('resultados/fallecidos_tacna.csv')
 
 except ConnectionResetError:
   pass

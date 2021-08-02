@@ -94,10 +94,20 @@ try:
   covid = pd.Series(d,index=['total_confirmados', 'total_altas', 'total_fallecidos', 'ayer_confirmados', 'ayer_altas', 'ayer_fallecidos'])
   covid.to_json('resultados/covid.json')
 
+  # DIARIO AG, PCR, PR: TACNA
+  df_tacna=df[df['DEPARTAMENTO'] == 'TACNA']
+  df_positivos_tacna=df_tacna[['FECHA_RESULTADO','METODODX','SEXO']].groupby(['FECHA_RESULTADO','METODODX']).count()
+  df_positivos_tacna=df_positivos_tacna.reset_index()
+  df_positivos_tacna=df_positivos_tacna.pivot(index='FECHA_RESULTADO', columns='METODODX', values='SEXO')
+  df_positivos_tacna=df_positivos_tacna.rename_axis(None, axis=1)
+  df_positivos_tacna=df_positivos_tacna.fillna(0).astype('int')
+  df_positivos_tacna
+
   df_positivos.to_csv('resultados/positivos_diarios.csv')
   df_positivos_cum.to_csv('resultados/positivos_acumulados.csv')
   df_positivos_departamento.to_csv('resultados/positivos_por_departamentos.csv')
   df_positivos_edades.to_csv('resultados/positivos_por_edades.csv')
+  df_positivos_tacna.to_csv('resultados/positivos_tacna.csv')
 
 except ConnectionResetError:
   # error de peers
