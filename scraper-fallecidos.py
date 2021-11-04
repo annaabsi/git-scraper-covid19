@@ -2,6 +2,17 @@ import pandas as pd
 import requests
 from io import StringIO
 
+
+def summary_by_department(df):
+
+  df=df[['FECHA_FALLECIMIENTO','SEXO', 'EDAD_DECLARADA']].groupby(['FECHA_FALLECIMIENTO', 'SEXO']).count()
+  df=df.reset_index()
+  df=df.pivot(index='FECHA_FALLECIMIENTO', columns='SEXO', values='EDAD_DECLARADA')
+  df=df.rename_axis(None, axis=1)
+  df=df.fillna(0).astype('int')
+
+  return df
+
 try:
   url = "https://cloud.minsa.gob.pe/s/xJ2LQ3QyRW38Pe5/download"
   headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:66.0) Gecko/20100101 Firefox/66.0"}
@@ -82,20 +93,43 @@ try:
   #fallecidos = pd.Series([df['FECHA_CORTE'].unique()[0], df[['FECHA_CORTE'][0]].count(), df_fallecidos.tail(1).sum(axis=1)[0]], index=['fecha_corte', 'total_fallecidos', 'incremento_fallecidos'])
   #fallecidos.to_json('resultados/fallecidos.json')
 
-  # DIARIO FALLECIDOS: TACNA
-  df_tacna=df[df['DEPARTAMENTO'] == 'TACNA']
-  df_fallecidos_tacna=df_tacna[['FECHA_FALLECIMIENTO','SEXO', 'EDAD_DECLARADA']].groupby(['FECHA_FALLECIMIENTO', 'SEXO']).count()
-  df_fallecidos_tacna=df_fallecidos_tacna.reset_index()
-  df_fallecidos_tacna=df_fallecidos_tacna.pivot(index='FECHA_FALLECIMIENTO', columns='SEXO', values='EDAD_DECLARADA')
-  df_fallecidos_tacna=df_fallecidos_tacna.rename_axis(None, axis=1)
-  df_fallecidos_tacna=df_fallecidos_tacna.fillna(0).astype('int')
-  df_fallecidos_tacna
+  # DIARIO POR DEPARTAMENTO
+  list_departamentos = ["AMAZONAS",
+                    "ANCASH",
+                    "APURIMAC",
+                    "AREQUIPA",
+                    "AYACUCHO",
+                    "CAJAMARCA",
+                    "CALLAO",
+                    "CUSCO",
+                    "HUANCAVELICA",
+                    "HUANUCO",
+                    "ICA",
+                    "JUNIN",
+                    "LA LIBERTAD",
+                    "LAMBAYEQUE",
+                    "LIMA",
+                    "LORETO",
+                    "MADRE DE DIOS",
+                    "MOQUEGUA",
+                    "PASCO",
+                    "PIURA",
+                    "PUNO",
+                    "SAN MARTIN",
+                    "TACNA",
+                    "TUMBES",
+                    "UCAYALI"]
+
+  for department_name in list_departamentos:
+      df_by_department=df[df['DEPARTAMENTO'] == department_name]
+      df_filtered=summary_by_department(df_by_department)
+      df_filtered.to_csv(f"resultados/fallecidos_departamentos/{department_name.lower()}.csv")
+
 
   df_fallecidos.to_csv('resultados/fallecidos_diarios.csv')
   df_fallecidos_cum.to_csv('resultados/fallecidos_acumulados.csv')
   df_fallecidos_departamento.to_csv('resultados/fallecidos_por_departamentos.csv')
   df_fallecidos_edades.to_csv('resultados/fallecidos_por_edades.csv')
-  df_fallecidos_tacna.to_csv('resultados/fallecidos_tacna.csv')
 
 except ConnectionResetError:
   pass
