@@ -134,7 +134,7 @@ try:
                     "UCAYALI"]
 
   for department_name in list_departamentos:
-      df_by_department=df[df['DEPARTAMENTO'] == 'TACNA']
+      df_by_department=df[df['DEPARTAMENTO'] == department_name]
       df_filtered=summary_by_department(df_by_department)
       df_filtered.to_csv(f"resultados/positivos_departamentos/{department_name.lower()}.csv")
 
