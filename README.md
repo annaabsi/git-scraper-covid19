@@ -48,19 +48,22 @@ El programa consta de dos scripts separados:
 
 Genera distintas tablas de salida con sus respetivas columnas que se encuentran dentro de la carpeta [resultados/](resultados/)
 
-1. [positivos_diarios.csv](resultados/positivos_diarios.csv): FECHA_RESULTADO,METODODX
-2. [positivos_acumulados.csv](resultados/positivos_acumulados.csv): FECHA_RESULTADO,METODODX
-3. [positivos_por_departamentos.csv](resultados/positivos_por_departamentos.csv): DEPARTAMENTO,METODODX
-4. [positivos_por_edades.csv](resultados/positivos_por_edades.csv): GRUPO_ETARIO,POSITIVOS,POBLACION,PORCENTAJE
-5. [fecha_corte_positivos.json](resultados/fecha_corte_positivos.json): fecha_corte
+
+1. [positivos/departamentos](positivos/departamentos): Casos positivos según tipo de prueba por departamento `FECHA_RESULTADO,AG,PCR,PR`.
+2. [positivos_diarios.csv](resultados/positivos_diarios.csv): `FECHA_RESULTADO,AG,PCR,PR`
+3. [positivos_acumulados.csv](resultados/positivos_acumulados.csv): `FECHA_RESULTADO,AG,PCR,PR`
+4. [positivos_por_departamentos.csv](resultados/positivos_por_departamentos.csv): `DEPARTAMENTO,METODODX,POBLACION,INDICE`
+5. [positivos_por_edades.csv](resultados/positivos_por_edades.csv): `GRUPO_ETARIO,POSITIVOS,POBLACION,PORCENTAJE`
+6. [fecha_corte_positivos.json](resultados/fecha_corte_positivos.json): `fecha_corte`
 
 
 ### *scraper-fallecidos.py*
 
 Genera distintas tablas de salida con sus respetivas columnas que se encuentran dentro de la carpeta [resultados/](resultados/)
 
-1. [fallecidos_diarios.csv](resultados/fallecidos_diarios.csv): FECHA_FALLECIMIENTO,SEXO
-2. [fallecidos_acumulados.csv](resultados/fallecidos_acumulados.csv): FECHA_FALLECIMIENTO,SEXO
-3. [fallecidos_por_departamentos.csv](resultados/fallecidos_por_departamentos.csv): DEPARTAMENTO,SEXO
-4. [fallecidos_por_edades.csv](resultados/fallecidos_por_edades.csv): GRUPO_ETARIO,FALLECIDOS,POBLACION,PORCENTAJE
-5. [fecha_corte_fallecidos.json](resultados/fecha_corte_fallecidos.json): fecha_corte
+1. [fallecidos/departamentos](fallecidos/departamentos): Casos fallecidos según tipo de prueba por departamento `FECHA_RESULTADO,AG,PCR,PR`.
+2. [fallecidos_diarios.csv](resultados/fallecidos_diarios.csv): `FECHA_RESULTADO,AG,PCR,PR`
+3. [fallecidos_acumulados.csv](resultados/fallecidos_acumulados.csv): `FECHA_RESULTADO,AG,PCR,PR`
+4. [fallecidos_por_departamentos.csv](resultados/fallecidos_por_departamentos.csv): `DEPARTAMENTO,METODODX,POBLACION,INDICE`
+5. [fallecidos_por_edades.csv](resultados/fallecidos_por_edades.csv): `GRUPO_ETARIO,POSITIVOS,POBLACION,PORCENTAJE`
+6. [fecha_corte_fallecidos.json](resultados/fecha_corte_fallecidos.json): `fecha_corte`
