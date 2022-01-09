@@ -8,3 +8,6 @@ google.deb
 *.ipynb_checkpoints*
 
 notebooks/.ipynb_checkpoints
+
+TB_F100_SICOVID.7z
+TB_F100_SICOVID.csv
