@@ -77,7 +77,6 @@ try:
         df_ubigeo=df_ubigeo.rename_axis(None, axis=1)
         df_ubigeo.columns=['Serológica','Antígena','Quimioluminiscencia']
         df_ubigeo=df_ubigeo.fillna(0).astype('int')
-
         # EQUIVALENTES DE ID UBIGEO
         df_ubigeo = pd.merge(df_ubigeo, df_id_ubigeo[['id_ubigeo','ubigeo_inei','departamento', 'provincia', 'distrito']],  how='inner', left_on='id_ubigeo_prueba', right_on='id_ubigeo')
         df_ubigeo
@@ -90,6 +89,17 @@ try:
         df_departamento = df_ubigeo[['Serológica','Antígena','Quimioluminiscencia','departamento']].groupby(['departamento']).sum()
         df_departamento
 
+        # PRUEBAS RÁPIDAS RESULTADOS POR DIA - POR UBIGEO
+        df_serologicas_ubigeo=df[df['id_tipo_prueba']==1].groupby(['fecha_prueba','id_ubigeo_prueba']).count()
+        df_serologicas_ubigeo=df_serologicas_ubigeo.reset_index()
+        df_serologicas_ubigeo=df_serologicas_ubigeo.pivot(index='id_ubigeo_prueba', columns='fecha_prueba', values='id_persona')
+        df_serologicas_ubigeo=df_serologicas_ubigeo.rename_axis(None, axis=1)
+        df_serologicas_ubigeo=df_serologicas_ubigeo.fillna(0).astype('int')
+        df_serologicas_ubigeo
+        # EQUIVALENTES DE ID UBIGEO
+        df_serologicas_ubigeo = pd.merge(df_id_ubigeo[['id_ubigeo','ubigeo_inei','departamento', 'provincia', 'distrito']], df_serologicas_ubigeo,  how='inner', left_on='id_ubigeo', right_on='id_ubigeo_prueba')
+        df_serologicas_ubigeo
+
         df_pruebas.to_csv('resultados/pruebas.csv')
         df_pruebas_cum.to_csv('resultados/pruebas_acumulado.csv')
         df_serologicas.to_csv('resultados/pruebas_serologicas.csv')
@@ -99,6 +109,7 @@ try:
         df_ubigeo.to_csv('resultados/pruebas_por_distrito.csv')
         df_provincia.to_csv('resultados/pruebas_por_provincia.csv')
         df_departamento.to_csv('resultados/pruebas_por_departamento.csv')
+        df_serologicas_ubigeo.to_csv('resultados/pruebas_serologicas_por_ubigeo.csv')
 
         # Save new hash
         file = open('resultados/hash_scraper_pruebas.txt', 'w')

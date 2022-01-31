@@ -68,6 +68,8 @@ try:
   def function(valueX):
     if 'LIMA REGION' in valueX:
       return 'LIMA'
+    elif 'ARICA' in valueX:
+      return 'TACNA'
     else:
       return valueX
   df_positivos_departamento['DEPARTAMENTO']=df_positivos_departamento['DEPARTAMENTO'].map(function)
