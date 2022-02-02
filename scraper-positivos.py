@@ -64,7 +64,7 @@ try:
   589110]
 
   # ACUMULADO POR DEPARTAMENTO
-  df_positivos_departamento=df[['DEPARTAMENTO','METODODX']]
+  df_positivos_departamento=df[['DEPARTAMENTO','METODODX']].dropna()
   def function(valueX):
     if 'LIMA REGION' in valueX:
       return 'LIMA'
