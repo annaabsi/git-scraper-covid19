@@ -20,9 +20,9 @@ try:
   req = requests.get(url, headers=headers)
   data = StringIO(req.text)
 
-  df=pd.read_csv(data, sep=';', usecols=['FECHA_CORTE', 'EDAD', 'SEXO', 'FECHA_RESULTADO', 'METODODX', 'DEPARTAMENTO'], parse_dates=['FECHA_RESULTADO'])
+  df=pd.read_csv(data, sep=';', usecols=['FECHA_CORTE', 'EDAD', 'SEXO', 'FECHA_RESULTADO', 'METODODX', 'DEPARTAMENTO'], parse_dates=['FECHA_RESULTADO'], dtype={'FECHA_CORTE': str})
   #df=pd.read_csv('positivos_covid.csv', sep=';', usecols=['FECHA_CORTE', 'EDAD', 'SEXO', 'FECHA_RESULTADO', 'METODODX', 'DEPARTAMENTO'], parse_dates=['FECHA_RESULTADO'])
-  fecha_corte=df['FECHA_CORTE'].drop_duplicates().set_axis(['fecha_corte'])
+  fecha_corte=df['FECHA_CORTE'].bfill().ffill().drop_duplicates().set_axis(['fecha_corte'])
   fecha_corte.to_json("resultados/fecha_corte_positivos.json")
 
   # DIARIO AG, PCR, PR
