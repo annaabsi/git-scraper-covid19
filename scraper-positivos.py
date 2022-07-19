@@ -37,6 +37,10 @@ try:
   df_positivos_cum=df_positivos.cumsum()
   df_positivos_cum
 
+  # DIARIO AG, PCR, PR DESDE 2022
+  df_positivos_2022=df_positivos[df_positivos.index >= '2022-01-01']
+  df_positivos_2022
+
   col_poblacion=[452125,
   1189403,
   440629,
@@ -91,6 +95,19 @@ try:
   df_positivos_edades=df_positivos_edades.set_index('GRUPO_ETARIO')
   df_positivos_edades
 
+  # ACUMULADO POR GRUPO ETARIO - 2022
+  bins = [5,12,18,30,40,50,60,80,df['EDAD'].max()+1]
+  labels = ['5 a 11 años','12 a 17 años','18 a 29 años','30 a 39 años','40 a 49 años','50 a 59 años','60 a 79 años','80 años a más']
+  poblacion_por_grupo_etario = [4201842,3614488,6788969,5382481,4604711,3524112,3851743,812904]
+  df_positivos_edades_2022 = df[df['FECHA_RESULTADO']>= '2022-01-01']
+  df_positivos_edades_2022['GRUPO_ETARIO'] = pd.cut(df['EDAD'], bins=bins, labels=labels, right=False)
+  df_positivos_edades_2022 = df_positivos_edades_2022.groupby(['GRUPO_ETARIO'])["METODODX"].count().reset_index()
+  df_positivos_edades_2022.rename(columns = {'METODODX':'POSITIVOS'}, inplace = True)
+  df_positivos_edades_2022['POBLACION']=poblacion_por_grupo_etario
+  df_positivos_edades_2022['PORCENTAJE']=round(df_positivos_edades_2022['POSITIVOS']/df_positivos_edades_2022['POBLACION']*100,2)
+  df_positivos_edades_2022=df_positivos_edades_2022.set_index('GRUPO_ETARIO')
+  df_positivos_edades_2022
+
   #TOTAL POSITIVOS
   #positivos = pd.Series([df['FECHA_CORTE'].unique()[0], df[['FECHA_CORTE'][0]].count(), df_positivos.tail(1).sum(axis=1)[0]], index=['fecha_corte', 'total_positivos', 'incremento_positivos'])
   #positivos.to_json('resultados/positivos.json')
@@ -144,6 +161,8 @@ try:
   df_positivos_cum.to_csv('resultados/positivos_acumulados.csv')
   df_positivos_departamento.to_csv('resultados/positivos_por_departamentos.csv')
   df_positivos_edades.to_csv('resultados/positivos_por_edades.csv')
+  df_positivos_2022.to_csv('resultados/positivos_diarios_2022.csv')
+  df_positivos_edades_2022.to_csv('resultados/positivos_por_edades_2022.csv')
 
 except ConnectionResetError:
   # error de peers
