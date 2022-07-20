@@ -99,7 +99,7 @@ try:
   bins = [5,12,18,30,40,50,60,80,df['EDAD'].max()+1]
   labels = ['5 a 11 años','12 a 17 años','18 a 29 años','30 a 39 años','40 a 49 años','50 a 59 años','60 a 79 años','80 años a más']
   poblacion_por_grupo_etario = [4201842,3614488,6788969,5382481,4604711,3524112,3851743,812904]
-  df_positivos_edades_2022 = df[df['FECHA_RESULTADO']>= '2022-01-01']
+  df_positivos_edades_2022 = df[df['FECHA_RESULTADO']>= '2022-06-26']
   df_positivos_edades_2022['GRUPO_ETARIO'] = pd.cut(df['EDAD'], bins=bins, labels=labels, right=False)
   df_positivos_edades_2022 = df_positivos_edades_2022.groupby(['GRUPO_ETARIO'])["METODODX"].count().reset_index()
   df_positivos_edades_2022.rename(columns = {'METODODX':'POSITIVOS'}, inplace = True)
