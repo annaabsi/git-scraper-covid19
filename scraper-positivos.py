@@ -74,6 +74,8 @@ try:
       return 'LIMA'
     elif 'ARICA' in valueX:
       return 'TACNA'
+    elif 'CARACAS' in valueX:
+      return 'TUMBES'
     else:
       return valueX
   df_positivos_departamento['DEPARTAMENTO']=df_positivos_departamento['DEPARTAMENTO'].map(function)
