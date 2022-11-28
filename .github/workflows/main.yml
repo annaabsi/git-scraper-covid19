@@ -9,7 +9,7 @@ on:
 
 jobs:
   scraper-positivos:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
 
       - name: checkout repo content
@@ -41,7 +41,7 @@ jobs:
           branch: main
 
   scraper-fallecidos:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
 
       - name: checkout repo content
@@ -73,7 +73,7 @@ jobs:
           branch: main
 
   scraper-pruebas:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
 
       - name: checkout repo content
